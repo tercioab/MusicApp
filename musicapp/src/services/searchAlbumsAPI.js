@@ -31,4 +31,5 @@ const searchAlbumsAPI = async (artist) => {
     return response;
   };
   
+
   export default searchAlbumsAPI;
