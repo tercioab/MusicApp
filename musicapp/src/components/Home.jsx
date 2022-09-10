@@ -1,14 +1,16 @@
+import { Button, CircularProgress, TextField, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import searchAlbumsAPI from "../services/searchAlbumsAPI";
+import Header from "./header";
 
 class Home extends React.Component {
 	constructor() {
 		super();
 
 		this.state = {
-			loading: '',
-            disabled: true,
+			loading: "",
+			disabled: true,
 			artista: "",
 			albuns: [],
 		};
@@ -16,17 +18,17 @@ class Home extends React.Component {
 
 	handleArtistChange = ({ target }) => {
 		const number = 2;
-        const { name } = target;
-        
-		(target.value.length >= number) && 
+		const { name } = target;
+
+		target.value.length >= number &&
 			this.setState({
-				disabled: false
+				disabled: false,
 			});
-		
+
 		this.setState({ [name]: target.value });
-    };
-    
-	pesquisa = (e) => {
+	};
+
+	pesquisa = e => {
 		e.preventDefault();
 		const { artista } = this.state;
 		this.setState(
@@ -41,47 +43,60 @@ class Home extends React.Component {
 				});
 			},
 		);
-    };
- 
+	};
+
 	render() {
 		const { albuns, artista, disabled, loading } = this.state;
 		return (
-			<div data-testid="header-component">
+			<div data-testid='header-component'>
+				<Header />
 				<form>
-					<label htmlFor="artista">
-						procurar album
-						<input
-							id="artista"
-							value={artista}
-							data-testid="search-artist-input"
-							name="artista"
-							type="text"
-							onChange={this.handleArtistChange}
-						/>
-					</label>
-					<button
+					<TextField
+						size='small'
+						id='outlined-basic'
+						label='Procurar Album'
+						variant='outlined'
+						value={artista}
+						data-testid='search-artist-input'
+						name='artista'
+						type='text'
+						onChange={this.handleArtistChange}
+					/>
+					<Button
+						size='medium'
 						onClick={this.pesquisa}
-						type="submit"
-						data-testid="search-artist-button"
+						color='success'
+						type='submit'
+						data-testid='search-artist-button'
 						disabled={disabled}
+						variant='contained'
 					>
 						pesquisa
-					</button>
+					</Button>
 				</form>
 				<div>
-					{ loading ? <h1>LOADING...</h1> : (albuns.map(({collectionId, artworkUrl100,artistId, artistName, collectionName}) => (
-                        <div key={collectionId}>
-							<Link
-								to={`/album/${collectionId}`}
-								data-testid={`link-to-album-${collectionId}`}
-							>
-							<img src={artworkUrl100} alt={artistId} />
-								<h3>{artistName}</h3>
-								<p>{collectionName}</p>
-								</Link>
-							
-						</div>)
-                    ))}
+					{loading ? (
+						<CircularProgress />
+					) : (
+						albuns.map(
+							({ collectionId, artworkUrl100, artistId, artistName, collectionName }) => (
+								<div key={collectionId}>
+									<Link
+										to={`/album/${collectionId}`}
+										data-testid={`link-to-album-${collectionId}`}
+									>
+										<img src={artworkUrl100} alt={artistId} />
+										<Typography variant='h6' component='h6'>
+											{artistName}
+										</Typography>
+										<Typography variant='body2' component='body2'>
+											{collectionName}
+										</Typography>
+									</Link>
+								</div>
+							),
+						)
+					)}
 				</div>
 			</div>
 		);
