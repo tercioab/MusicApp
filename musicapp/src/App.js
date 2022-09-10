@@ -1,16 +1,23 @@
-import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import Header from './components/Header';
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Home from "./components/Home";
+import Album from "./pages/album";
+
 
 class App extends React.Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <p>TrybeTunes</p>
-        <Header />
-      </BrowserRouter>
-    );
-  }
+	render() {
+		return (
+			<BrowserRouter>
+        <h1>Music App</h1>
+      
+    <Switch>
+        <Route exact path='/' component={Home} />
+					<Route path="/album/:id" render={(props) => <Album {...props} />} />
+          </Switch>
+        
+			</BrowserRouter>
+		);
+	}
 }
 
 export default App;

@@ -69,18 +69,17 @@ class Home extends React.Component {
 					</button>
 				</form>
 				<div>
-					{ loading ? <h1>LOADING...</h1> : (albuns.map((album) => (
-                        <div key={album.collectionId}>
+					{ loading ? <h1>LOADING...</h1> : (albuns.map(({collectionId, artworkUrl100,artistId, artistName, collectionName}) => (
+                        <div key={collectionId}>
 							<Link
-								to={`/album/${album.collectionId}`}
-								data-testid={`link-to-album-${album.collectionId}`}
-                            >	artista </Link>
-								<p>{album.collectionId}</p>
-								<h3>{album.artistName}</h3>
-								<p>{album.collectionName}</p>
-								<img src={album.artworkUrl100} alt={album.artistId} />
-								<p>{album.trackCount}</p>
-						
+								to={`/album/${collectionId}`}
+								data-testid={`link-to-album-${collectionId}`}
+							>
+							<img src={artworkUrl100} alt={artistId} />
+								<h3>{artistName}</h3>
+								<p>{collectionName}</p>
+								</Link>
+							
 						</div>)
                     ))}
 				</div>
