@@ -1,19 +1,19 @@
+import { Checkbox, CircularProgress, Typography } from "@mui/material";
 import React from "react";
 import getMusics from "../services/getMusics";
+import Header from "../components/header";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
 class Album extends React.Component {
 	constructor() {
 		super();
 
 		this.state = {
-			albumArray: [],
+			musicArray: [],
+			favorite: [],
 			loading: false,
 		};
 	}
-
-	teste = () => {
-		console.log(this.props);
-	};
 
 	componentDidMount = async () => {
 		const { id } = this.props.match.params;
@@ -24,30 +24,59 @@ class Album extends React.Component {
 			async () => {
 				this.setState({
 					loading: false,
-					albumArray: await getMusics(id),
+					musicArray: await getMusics(id),
 				});
 			},
 		);
 	};
 
-	render() {
-		const { loading, albumArray } = this.state;
-		return (
-			<div>
-				{loading ? (
-					<h1>CARREGANDO...</h1>
-				) : ( 
-					albumArray.map(({ trackName, previewUrl }) => ( (previewUrl) &&
-						(<div>
-							<h3>{trackName}</h3>
-							<audio controls>
-							<source src={previewUrl} type="audio/ogg"/>
-							</audio>
+	favorites = ({ target }) => {
+		const { value, name, checked } = target;
+		const { favorite } = this.state;
+		const obj = { value: value, trackName: name };
+		checked
+			? this.setState(prevstate => ({
+					favorite: [...prevstate.favorite, obj],
+			  }))
+			: this.setState(prevstate => ({
+					favorite: favorite.filter(({ value }) => value !== obj.value),
+			  }));
 
-						</div>)
-					))
-				)}
-			</div>
+		
+	};
+
+	render() {
+		const { loading, musicArray } = this.state;
+		return (
+		
+			<div>
+				<Header />
+				{loading ? (
+					<CircularProgress />
+				) : (
+					musicArray.map(
+						({ trackName, previewUrl }) =>
+							previewUrl && (
+								<div>
+									<Typography variant='h6' component='h6'>
+										{trackName}
+									</Typography>
+									<audio controls>
+										<source src={previewUrl} type='audio/ogg' />
+									</audio>
+									<Checkbox
+										value={previewUrl}
+										name={trackName}
+										onChange={this.favorites}
+										icon={<FavoriteBorder />}
+										checkedIcon={<Favorite />}
+									/>
+								</div>
+							),
+					)
+					)}
+				</div>
+				
 		);
 	}
 }
