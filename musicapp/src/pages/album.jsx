@@ -48,7 +48,7 @@ class Album extends React.Component {
 	
 	render() {
 		const { loading, musicArray, favorite} = this.state;
-		localStorage.setItem('key', JSON.stringify(favorite))
+		( favorite.length === 0 || (localStorage.setItem('key', JSON.stringify(favorite))))
 		return (
 		
 			<div>
