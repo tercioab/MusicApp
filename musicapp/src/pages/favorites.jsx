@@ -3,9 +3,7 @@ import React from "react"
 
 class Favorite extends React.Component {
     render() {
-        const result = localStorage.getItem('key');
-		const result1 = JSON.parse(result);
-		
+		const result1 = JSON.parse(localStorage.getItem('key'));
         return (
         <>
             {

@@ -12,6 +12,7 @@ class Album extends React.Component {
 			musicArray: [],
 			favorite: [],
 			loading: false,
+			
 		};
 	}
 
@@ -36,23 +37,18 @@ class Album extends React.Component {
 		const obj = { value: value, trackName: name };
 		checked
 			? this.setState(prevstate => ({
-					favorite: [...prevstate.favorite, obj],
-			  }))
-			: this.setState(prevstate => ({
+				favorite: [...prevstate.favorite, obj],
+			    
+			  }), () => { obj.checked = true })
+			: this.setState({
 					favorite: favorite.filter(({ value }) => value !== obj.value),
-			}));
-		
-		
-		
+			});
 	};
 
+	
 	render() {
-		const { loading, musicArray, favorite } = this.state;
-		const array = JSON.stringify(favorite)
-		localStorage.setItem('key', array)
-	
-		
-	
+		const { loading, musicArray, favorite} = this.state;
+		localStorage.setItem('key', JSON.stringify(favorite))
 		return (
 		
 			<div>
