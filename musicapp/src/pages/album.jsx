@@ -40,13 +40,19 @@ class Album extends React.Component {
 			  }))
 			: this.setState(prevstate => ({
 					favorite: favorite.filter(({ value }) => value !== obj.value),
-			  }));
-
+			}));
+		
+		
 		
 	};
 
 	render() {
-		const { loading, musicArray } = this.state;
+		const { loading, musicArray, favorite } = this.state;
+		const array = JSON.stringify(favorite)
+		localStorage.setItem('key', array)
+	
+		
+	
 		return (
 		
 			<div>
@@ -55,9 +61,9 @@ class Album extends React.Component {
 					<CircularProgress />
 				) : (
 					musicArray.map(
-						({ trackName, previewUrl }) =>
+						({ trackName, previewUrl }, index) =>
 							previewUrl && (
-								<div>
+								<div key={index}>
 									<Typography variant='h6' component='h6'>
 										{trackName}
 									</Typography>
@@ -74,7 +80,8 @@ class Album extends React.Component {
 								</div>
 							),
 					)
-					)}
+				)}
+				
 				</div>
 				
 		);
