@@ -9,10 +9,10 @@ class Home extends React.Component {
 		super();
 
 		this.state = {
-			loading: "",
-			disabled: true,
 			artista: "",
 			albuns: [],
+			disabled: true,
+			loading: false,
 		};
 	}
 
