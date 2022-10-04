@@ -34,7 +34,7 @@ export default function Albums() {
 				<input value={albums} name='albums' type='text' onChange={onChangeAlbumSearch} />
 				<button onClick={onClickSearch}>search</button>
 			</form>
-			<section>
+			<section className="album-section">
 				{albumApi.map(({ collectionName, artworkUrl100, collectionId }) => (
 					<AlbumCard key={collectionId} image={artworkUrl100} title={collectionName} id={collectionId} />
 				))}
