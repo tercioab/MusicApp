@@ -14,10 +14,27 @@ export default function Musics(props) {
         const getMusicList = async () => {
             const musics = await GetMusics(id)
             setMusicApi(musics)
-            localStorage.setItem("favorites", JSON.stringify(listOfFavorites))
         }
         getMusicList()
     }, [id, listOfFavorites])
+
+    
+    useEffect(() => {
+        const setLocalStorage = async () => {
+            await GetMusics()
+            localStorage.setItem("favorites", JSON.stringify(listOfFavorites))
+        }
+        setLocalStorage()
+    }, [listOfFavorites])
+
+
+    useEffect(() => {
+        const data = localStorage.getItem("favorites");
+        if (data) {
+            SetListOfFavorites(JSON.parse(data));
+            console.log("efc3")
+        }
+    }, [])
 
 
     const fav = ({ target }) => {
@@ -34,12 +51,7 @@ export default function Musics(props) {
     };
 
     
-    useEffect(() => {
-        const data = localStorage.getItem("favorites");
-        if (data) {
-            SetListOfFavorites(JSON.parse(data));
-        }
-    }, [])
+
 
     
     return (
@@ -48,10 +60,6 @@ export default function Musics(props) {
                 previewUrl && <MusicCard key={index} music={previewUrl} title={trackName} change={fav}
                     checked={listOfFavorites.checked}
                 />) : "carregando..."}
-            <h1>favoritos</h1>
-            {listOfFavorites.map(({ value, name, checked }, index) => value && <MusicCard music={value} key={index}
-                checked={checked}
-                title={name } />)}
    </section>
     )
 }
