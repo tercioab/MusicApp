@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AlbumCard from "../components/AlbumCard"
 import searchAlbumsAPI from "../services/searchAlbumsAPI";
 
@@ -10,8 +10,7 @@ export default function Albums() {
 
 	const onChangeAlbumSearch = ({ target }) => {
 		const { name, value } = target;
-		setInputAlbum(prev => ({
-			...prev,
+		setInputAlbum( ({
 			[name]: value,
         }));
             
@@ -35,8 +34,8 @@ export default function Albums() {
 				<button onClick={onClickSearch}>search</button>
 			</form>
 			<section className="album-section">
-				{albumApi.map(({ collectionName, artworkUrl100, collectionId }) => (
-					<AlbumCard key={collectionId} image={artworkUrl100} title={collectionName} id={collectionId} />
+				{albumApi.map(({ collectionName, artworkUrl100, collectionId, artistName }) => (
+					<AlbumCard key={collectionId} image={artworkUrl100} title={collectionName} id={collectionId} artist={artistName} />
 				))}
 			</section>
 		</div>
